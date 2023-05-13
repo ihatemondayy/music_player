@@ -1,25 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>awesome mixtape</title>
+    <title>Awesome Mixtape</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
     <div class="container">
-      <h1>awesome mixtape</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Track Name</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-      <canvas id="chart"></canvas>
-    </div>
+        <h1>AWESOME MIXTAPE</h1>
+        <div class="buttons">
+        </div>
+        <main>
+            <input type="text" id="videoUrl" placeholder="YOUTUBE LINK">
+            <button id="addAndLoadVideoButton">Add Link</button>
+
+            <div class="left-side">
+                <button id="play">Play</button>
+                <button id="pause">Pause</button>
+            </div>
+            <div id="player"></div>
+            <div class="video"></div>
+            <div id="playlist-container" class="playlist-container"></div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Track Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <canvas id="chart"></canvas>
+        </div>
+    </main>
+    <script>
+      // 'player'를 'youtubePlayer'로 변경합니다.
+      function onYouTubeIframeAPIReady() {
+          // 'player'를 'youtubePlayer'로 변경합니다.
+          youtubePlayer = new YT.Player("player", {
+              height: "360",
+              width: "640",
+              videoId: "",
+          });
+      }
+
+      function loadVideo() {
+        const url = document.getElementById("videoUrl").value;
+        const videoId = getYoutubeIdFromUrl(url);
+        youtubePlayer.loadVideoById(videoId);
+        addLink(); // addmusic.js의 addLink() 함수 호출
+      }
+  
+      function getYoutubeIdFromUrl(url) {
+          const regExp =
+              /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#?&]*).*/;
+          const match = url.match(regExp);
+          return match && match[7].length === 11 ? match[7] : null;
+      }
+     </script>
+  
+    <script src="addmusic.js"></script>
+    <script src="app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-    <script src="app.js"></script>  
 </body>
 </html>
